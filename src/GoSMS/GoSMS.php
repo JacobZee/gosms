@@ -117,7 +117,7 @@ class GoSMS
         );
 
         $response = json_decode($result->response);
-        
+
         if ( $result->info->http_code === 400 ) {
             throw new GoSMSException\InvalidCredentials('Bad credentials or grant_type missing');
         } elseif ( $result->info->http_code !== 200 ) {
@@ -234,7 +234,7 @@ class GoSMS
                 throw new GoSMSException\Another($response->error_description);
             }
         }
-        
+
         $this->recipients = [];
 
         return $response;
@@ -283,7 +283,7 @@ class GoSMS
      */
     public function setRecipient($recipient)
     {
-        if ( ! preg_match('~\+[0-9]{11,12}$~', $recipient) || preg_match('~^\+420[0-9]{8}$~', $recipient) ) {
+        if ( !preg_match('~^(((\+|00)(?!420)[0-9]{11,13})|((\+|00)(?=420)[0-9]{12}))$~', $recipient)) {
             throw new GoSMSException\InvalidFormat('Invalid recipient number format');
         }
 
